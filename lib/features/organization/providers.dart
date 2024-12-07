@@ -3,6 +3,7 @@ import 'package:example/features/auth/auth_provider.dart';
 import 'package:example/features/common/domain/failures/failure.dart';
 import 'package:example/features/organization/domain/entities/organization_entity.dart';
 import 'package:example/features/organization/infrastructure/repositories/organization_repository.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'providers.g.dart';
@@ -12,7 +13,7 @@ part 'providers.g.dart';
 ///
 
 @riverpod
-OrganizationRepository organizationRepository(OrganizationRepositoryRef ref) {
+OrganizationRepository organizationRepository(Ref ref) {
   final user = ref.watch(authRepositoryProvider.select((v) => v.currentUser));
   if (user == null) throw const Failure.unauthorized();
   return OrganizationRepository(

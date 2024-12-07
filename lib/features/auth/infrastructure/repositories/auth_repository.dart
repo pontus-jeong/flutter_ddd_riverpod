@@ -19,8 +19,9 @@ class AuthRepository implements AuthRepositoryInterface {
   final supabase.GoTrueClient authClient;
 
   /// Current authorized User
-  UserEntity? get currentUser =>
-      authClient.currentUser == null ? null : UserEntity.fromJson(authClient.currentUser!.toJson());
+  UserEntity? get currentUser => authClient.currentUser == null
+      ? null
+      : UserEntity.fromJson(authClient.currentUser!.toJson());
 
   /// Returns Stream with auth user changes
   @override
@@ -31,7 +32,8 @@ class AuthRepository implements AuthRepositoryInterface {
       switch (data.event) {
         case supabase.AuthChangeEvent.signedIn:
         case supabase.AuthChangeEvent.userUpdated:
-        case supabase.AuthChangeEvent.initialSession when data.session?.user != null:
+        case supabase.AuthChangeEvent.initialSession
+            when data.session?.user != null:
         case supabase.AuthChangeEvent.mfaChallengeVerified:
           callback(
             UserEntity.fromJson(data.session!.user.toJson()),
@@ -55,7 +57,8 @@ class AuthRepository implements AuthRepositoryInterface {
   Future<Either<Failure, UserEntity>> setSession(String token) async {
     try {
       final response = await authClient.setSession(token);
-      await authTokenLocalDataSource.store(response.session?.providerToken ?? '');
+      await authTokenLocalDataSource
+          .store(response.session?.providerToken ?? '');
 
       final user = response.user;
 
@@ -74,12 +77,13 @@ class AuthRepository implements AuthRepositoryInterface {
   @override
   Future<Either<Failure, UserEntity>> restoreSession() async {
     try {
-      final res = authTokenLocalDataSource.get();
+      final res = await authTokenLocalDataSource.get();
       if (res.isLeft()) {
         return left(const Failure.empty());
       }
 
-      final response = await authClient.recoverSession(res.getOrElse((_) => ''));
+      final response =
+          await authClient.recoverSession(res.getOrElse((_) => ''));
       final user = response.user;
 
       if (user == null) {
@@ -87,7 +91,8 @@ class AuthRepository implements AuthRepositoryInterface {
         return left(const Failure.unauthorized());
       }
 
-      await authTokenLocalDataSource.store(response.session?.providerToken ?? '');
+      await authTokenLocalDataSource
+          .store(response.session?.providerToken ?? '');
 
       return right(UserEntity.fromJson(user.toJson()));
     } catch (_) {

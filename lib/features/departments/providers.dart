@@ -1,6 +1,7 @@
 import 'package:example/config/providers.dart';
 import 'package:example/features/departments/infrastructure/repositories/department_repository.dart';
 import 'package:example/features/organization/providers.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'providers.g.dart';
@@ -10,7 +11,7 @@ part 'providers.g.dart';
 ///
 
 @riverpod
-DepartmentRepository departmentsRepository(DepartmentsRepositoryRef ref) {
+DepartmentRepository departmentsRepository(Ref ref) {
   final organization = ref.watch(currentOrganizationProvider);
   if (organization == null) {
     throw UnimplementedError(

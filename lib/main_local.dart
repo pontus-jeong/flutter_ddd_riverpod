@@ -9,7 +9,7 @@ void main() async {
   runApp(
     UncontrolledProviderScope(
       container: await bootstrap(),
-      child: const ExampleApp(),
+      child: const App(),
     ),
   );
 }

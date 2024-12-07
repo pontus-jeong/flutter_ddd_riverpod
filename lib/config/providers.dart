@@ -12,7 +12,7 @@ part 'providers.g.dart';
 
 /// Exposes [SharedPreferences] instance
 @Riverpod(keepAlive: true)
-FutureOr<SharedPreferences> sharedPreferences(SharedPreferencesRef ref) {
+FutureOr<SharedPreferences> sharedPreferences(Ref ref) {
   return SharedPreferences.getInstance();
 }
 
@@ -20,7 +20,7 @@ FutureOr<SharedPreferences> sharedPreferences(SharedPreferencesRef ref) {
 
 /// Exposes [SupabaseClient] client
 @riverpod
-SupabaseClient supabaseClient(SupabaseClientRef ref) {
+SupabaseClient supabaseClient(Ref ref) {
   return Supabase.instance.client;
 }
 

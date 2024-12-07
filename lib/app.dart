@@ -5,9 +5,9 @@ import 'package:example/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 /// Main example app class
-class ExampleApp extends StatelessWidget {
+class App extends StatelessWidget {
   /// Default constructor for Example app
-  const ExampleApp({super.key});
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
